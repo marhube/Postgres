@@ -1,0 +1,260 @@
+#******** Start type hinting
+from typing import Optional
+#******** Slutt type hinting
+
+import os
+import sys # For testing
+import pandas as pd
+import datetime as dt
+import numpy as np
+import re
+import oracledb
+import sqlalchemy
+from sqlalchemy import create_engine
+
+# ***********Start for å lese inn passord + annen db-info
+from dotenv import load_dotenv
+from decouple import config
+# ***Slutt for å lese inn passord + annen db-info
+
+
+def replace_env_variables(s: str) -> str:
+    # This function will find all occurrences of ${VAR_NAME} in the string
+    # and replace them with the value of the environment variable VAR_NAME.
+    # Define a pattern to match ${ANYTHING_HERE}
+    pattern = re.compile(r'\$\{(.+?)\}')
+    # Replace each found pattern with the corresponding environment variable
+    def replace(match):
+        var_name = match.group(1)  # Extract variable name
+        return os.environ.get(var_name, '')  # Replace with env variable value
+    #
+    return pattern.sub(replace, s)
+    
+    
+    
+    class OracleError(Exception):
+    """Custom exception class."""
+    def __init__(self, message):
+        super().__init__(message)
+
+
+
+class Connect:
+    def __init__(
+        self,
+        data_product: str ='FREG'        
+        ) :
+        self.data_product = data_product    
+    # 
+    def get_connection(self) -> oracledb.Connection:
+        load_dotenv()        
+        hostname = config('_'.join(['ORACLE_HOST',self.data_product]))
+        port = config('ORACLE_PORT')
+        database_name = config('_'.join(['ORACLE_DB',self.data_product]))
+        user = config('ORACLE_USER')
+        password =  config('ORACLE_PASSWORD') 
+        dsn_tns = oracledb.makedsn(hostname,port,database_name) 
+        conn = oracledb.connect(
+            user = user,
+            password = password,
+            dsn=dsn_tns
+        )
+        return conn
+    #
+    def get_connection_string(self) -> str:
+        dp = self.data_product
+        connection_string = f"oracle+oracledb://${{ORACLE_USER}}:${{ORACLE_PASSWORD}}@${{ORACLE_HOST_{dp}}}:${{ORACLE_PORT}}/${{ORACLE_DB_{dp}}}"
+        return connection_string
+
+    #Lager  sqlalchemy engine
+    def get_engine(self) -> sqlalchemy.engine.base.Engine:
+        connection_string = replace_env_variables(self.get_connection_string())
+        engine = create_engine(connection_string)
+        return engine
+    
+    
+    def replace_env_variables(s: str) -> str:
+    # This function will find all occurrences of ${VAR_NAME} in the string
+    # and replace them with the value of the environment variable VAR_NAME.
+    # Define a pattern to match ${ANYTHING_HERE}
+    pattern = re.compile(r'\$\{(.+?)\}')
+    # Replace each found pattern with the corresponding envre..ironment variable
+    def replace(match):
+        var_name = match.group(1)  # Extract variable name
+        return os.environ.get(var_name, '')  # Replace with env variable value
+    #
+    return pattern.sub(replace, s)
+    
+    
+      def get_connection_string(self) -> str:
+        dp = self.data_product
+        connection_string = f"oracle+oracledb://${{ORACLE_USER}}:${{ORACLE_PASSWORD}}@${{ORACLE_HOST_{dp}}}:${{ORACLE_PORT}}/${{ORACLE_DB_{dp}}}"
+        return connection_string
+
+    ORACLE_USER=m01315
+    
+    
+    ]: help(psycopg2.extensions.connection.commit)
+
+
+In [5]: help(sqlalchemy.engine.base.Connection.commit)
+
+
+
+array(['pg_type', 'yellow_tripdata', 'pg_foreign_table', 'pg_roles',
+       'pg_settings', 'pg_available_extension_versions', 'my_table',
+       'pg_stat_xact_user_functions', 'pg_subscription', 'pg_attribute',
+       'pg_proc', 'pg_class', 'pg_attrdef', 'pg_constraint',
+       'pg_inherits', 'pg_index', 'pg_operator', 'pg_opfamily',
+       'pg_opclass', 'pg_am', 'pg_amop', 'pg_amproc', 'pg_language',
+       'pg_stat_archiver', 'pg_stat_bgwriter', 'pg_stat_wal',
+       'pg_stat_progress_analyze', 'pg_stat_progress_vacuum',
+       'pg_stat_progress_cluster', 'pg_stat_progress_create_index',
+       'pg_stat_progress_basebackup', 'pg_stat_progress_copy',
+       'pg_largeobject_metadata', 'pg_aggregate', 'pg_statistic_ext',
+       'pg_rewrite', 'pg_trigger', 'pg_event_trigger', 'pg_description',
+       'pg_cast', 'pg_enum', 'pg_namespace', 'pg_conversion', 'pg_depend',
+       'pg_database', 'pg_db_role_setting', 'pg_tablespace',
+       'pg_auth_members', 'pg_shdepend', 'pg_shdescription',
+       'pg_ts_config', 'pg_ts_config_map', 'pg_ts_dict', 'pg_ts_parser',
+       'pg_ts_template', 'pg_extension', 'pg_foreign_data_wrapper',
+       'pg_foreign_server', 'pg_policy', 'pg_replication_origin',
+       'pg_default_acl', 'pg_init_privs', 'pg_seclabel', 'pg_shseclabel',
+       'pg_collation', 'pg_partitioned_table', 'pg_range', 'pg_transform',
+       'pg_sequence', 'pg_publication', 'pg_publication_rel',
+       'pg_subscription_rel', 'pg_matviews', 'pg_group', 'pg_user',
+       'pg_policies', 'pg_rules', 'pg_views', 'pg_tables', 'pg_indexes',
+       'pg_sequences', 'pg_stats', 'pg_stats_ext', 'pg_stats_ext_exprs',
+       'pg_publication_tables', 'pg_locks', 'pg_cursors',
+       'pg_available_extensions', 'pg_prepared_xacts',
+       'pg_prepared_statements', 'pg_seclabels',
+       'pg_stat_xact_user_tables', 'pg_timezone_abbrevs',
+       'pg_timezone_names', 'pg_statio_all_tables',
+       'pg_statio_sys_tables', 'pg_stat_all_tables',
+       'pg_stat_xact_all_tables', 'pg_stat_sys_tables',
+       'pg_stat_xact_sys_tables', 'pg_stat_user_tables',
+       'pg_statio_user_tables', 'pg_stat_all_indexes',
+       'pg_stat_sys_indexes', 'pg_stat_user_indexes',
+       'pg_statio_all_indexes', 'pg_statio_sys_indexes',
+       'pg_statio_user_indexes', 'pg_statio_all_sequences',
+       'pg_statio_sys_sequences', 'pg_statio_user_sequences',
+       'pg_stat_activity', 'pg_stat_replication', 'pg_stat_slru',
+       'pg_stat_wal_receiver', 'pg_stat_subscription', 'pg_stat_ssl',
+       'pg_stat_gssapi', 'pg_replication_slots',
+       'pg_stat_replication_slots', 'pg_stat_database',
+       'pg_stat_database_conflicts', 'pg_stat_user_functions',
+       'pg_user_mappings', 'information_schema_catalog_name',
+       'attributes', 'applicable_roles',
+       'administrable_role_authorizations',
+       'check_constraint_routine_usage', 'character_sets',
+       'check_constraints', 'collations',
+       'collation_character_set_applicability', 'column_column_usage',
+       'column_domain_usage', 'routines', 'column_privileges',
+       'role_column_grants', 'column_udt_usage', 'columns',
+       'constraint_column_usage', 'routine_column_usage',
+       'constraint_table_usage', 'domain_constraints', 'domain_udt_usage',
+       'routine_privileges', 'domains', 'enabled_roles', 'schemata',
+       'key_column_usage', 'role_routine_grants', 'parameters',
+       'referential_constraints', 'routine_routine_usage',
+       'routine_sequence_usage', 'sequences', 'routine_table_usage',
+       'sql_implementation_info', 'sql_features', 'sql_sizing',
+       'table_constraints', 'table_privileges', 'view_table_usage',
+       'role_table_grants', 'tables', 'user_mappings',
+       'triggered_update_columns', 'views', 'triggers', 'udt_privileges',
+       'foreign_data_wrappers', 'role_udt_grants', 'data_type_privileges',
+       'usage_privileges', 'role_usage_grants', 'user_defined_types',
+       'element_types', 'view_column_usage', 'view_routine_usage',
+       'column_options', 'foreign_table_options',
+       'foreign_data_wrapper_options', 'foreign_server_options',
+       'foreign_servers', 'user_mapping_options', 'foreign_tables'],
+      dtype=object)
+
+    
+   
+data = [{'id': 1, 'label': 'first'}, {'id': 2, 'label': 'second'}, {'id': 3, 'label': 'third'}]
+cursor.executemany("INSERT INTO table_name (id, label) VALUES (:id, :label)", data)
+    
+    
+    
+Traceback (most recent call last):
+  File "/home/m01315/General_Python/Package/Postgres/tests/test_Execute.py", line 39, in test_exec_and_commit
+    data_types =  exec.exec_fetch(str_sql_data_types_user_table)
+  File "/home/m01315/General_Python/Package/Postgres/src/Postgres/Execute.py", line 51, in exec_fetch
+    crsr.execute(table_query)
+psycopg2.errors.CardinalityViolation: more than one row returned by a subquery used as an expression
+
+
+ERROR: test_clean_export (tests.test_IO.TestExport)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/m01315/General_Python/Package/Postgres/tests/test_IO.py", line 180, in test_clean_export
+    import_data.create_or_replace_table_and_insert_data(test_data)
+  File "/home/m01315/General_Python/Package/Postgres/src/Postgres/IO.py", line 61, in create_or_replace_table_and_insert_data
+    self.insert_data(df)
+  File "/home/m01315/General_Python/Package/Postgres/src/Postgres/IO.py", line 56, in insert_data
+    super().exec_insert(str_insert_into, data_to_insert)
+  File "/home/m01315/General_Python/Package/Postgres/src/Postgres/Execute.py", line 43, in exec_insert
+    crsr.executemany(sql_insert,data_to_insert)
+psycopg2.errors.InvalidTextRepresentation: invalid input syntax for type integer: "77.0"
+LINE 3: ...ST('34.58319794293322' AS DOUBLE PRECISION), CAST('77.0' AS ...
+
+
+
+            if len(self.values.dropna())  > 0:
+                self.values = datetime2date(self.values)
+            else:
+                self.values = self.values.map(lambda x: pd.NaT)  
+    
+   
+           if len(self.values.dropna())  > 0:
+                self.values = datetime2date(self.values)
+            else:
+                self.values = self.values.map(lambda x: pd.NaT)  
+                
+                
+mport jaydebeapi
+
+# Path to your PostgreSQL JDBC driver .jar file
+jdbc_driver_path = "/path/to/postgresql-42.7.1.jar"
+
+# JDBC connection string
+jdbc_url = "jdbc:postgresql://localhost:5432/test_database"
+
+# JDBC driver class name for PostgreSQL
+driver_class = "org.postgresql.Driver"
+
+# Database credentials
+username = "your_username"
+password = "your_password"
+
+# Specify any additional JDBC driver options here (optional)
+jdbc_driver_props = {
+    "user": username,
+    "password": password
+}
+
+# Start the JVM with the JDBC driver
+jaydebeapi._DEFAULT_CONVERTERS.update(jaydebeapi._BIGDECIMAL_CONVERTERS)
+conn = jaydebeapi.connect(jclassname=driver_class,
+                          url=jdbc_url,
+                          driver_args=[username, password],
+                          jars=jdbc_driver_path,
+                          libs=None)
+
+# Create a cursor object using the connection
+cursor = conn.cursor()
+
+# Execute a query
+cursor.execute("SELECT * FROM your_table")
+
+# Fetch the results
+results = cursor.fetchall()
+
+for row in results:
+    print(row)
+
+# Close the connection
+cursor.close()
+conn.close()
+   
+   

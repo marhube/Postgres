@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Postgres"
+version = "0.1.0"
+description = "A package for connecting to and working with an Postgres databases."
+authors = [{name = "Martin Hunting", email = "martin.hunting@hotmail.com"}]
+license = { text = "MIT License" } 
+requires-python = ">=3.10"
+
+dependencies = [
+    'pandas','pyarrow','psycopg2','sqlalchemy','python-decouple','python-dotenv','mypy',
+    'JayDeBeApi', 'JPype1',
+    'Datatype @ file:///home/m01315/General_Python/Packages/Datatype',
+    'dbmisc @ file:///home/m01315/General_Python/Packages/dbmisc'
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/my_package"
+Documentation = "https://yourusername.github.io/my_package"
+Source = "https://github.com/yourusername/my_package"
+Tracker = "https://github.com/yourusername/my_package/issues"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+package-data = { "Postgres" = ["py.typed"] }  # This line is added to include py.typed in your package

@@ -1,0 +1,15 @@
+ipython
+typing
+pandas
+pandas-stubs
+pyarrow
+psycopg2
+types-psycopg2
+sqlalchemy
+python-decouple-typed
+python-dotenv
+mypy
+JayDeBeApi
+JPype1
+
+

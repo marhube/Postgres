@@ -1,0 +1,11 @@
+pandas
+pyarrow
+psycopg2
+sqlalchemy
+python-decouple
+python-dotenv
+mypy
+JayDeBeApi
+JPype1
+Datatype@ file:///home/m01315/General_Python/Packages/Datatype
+dbmisc@ file:///home/m01315/General_Python/Packages/dbmisc

@@ -1,0 +1,22 @@
+Metadata-Version: 2.1
+Name: Postgres
+Version: 0.1.0
+Summary: A package for connecting to and working with an Postgres database.
+Author-email: Martin Hunting <martin.hunting@hotmail.com>
+License: MIT License
+Project-URL: Homepage, https://github.com/yourusername/my_package
+Project-URL: Documentation, https://yourusername.github.io/my_package
+Project-URL: Source, https://github.com/yourusername/my_package
+Project-URL: Tracker, https://github.com/yourusername/my_package/issues
+Requires-Python: >=3.10
+Requires-Dist: pandas
+Requires-Dist: pyarrow
+Requires-Dist: psycopg2
+Requires-Dist: sqlalchemy
+Requires-Dist: python-decouple
+Requires-Dist: python-dotenv
+Requires-Dist: mypy
+Requires-Dist: JayDeBeApi
+Requires-Dist: JPype1
+Requires-Dist: Datatype@ file:///home/m01315/General_Python/Packages/Datatype
+Requires-Dist: dbmisc@ file:///home/m01315/General_Python/Packages/dbmisc
